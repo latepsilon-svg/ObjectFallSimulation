@@ -4,12 +4,11 @@ public class MathFunction
 {
     public virtual float Derivative(float inX)
     {
-        float ind = Mathf.Sqrt(10 * 0.01f) * inX;
-        return 10 * Sech(ind) * Sech(ind);
+        return 1;
     }
     public virtual float Function(float inX)
     {
-        return Mathf.Sqrt(10 / 0.01f) * Tanh(Mathf.Sqrt(10 * 0.01f) * inX);
+        return inX;
     }
     const double oiler = System.Math.E;
     public float Tanh(float x)

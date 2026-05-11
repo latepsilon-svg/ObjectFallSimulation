@@ -138,11 +138,10 @@ public class SimulationManager : MonoBehaviour
     {
         if (dragSimulation == null) return;
 
-        string velocityText = $"Velocidad: ({dragSimulation.velocity.x:F2}, {dragSimulation.velocity.y:F2}, {dragSimulation.velocity.z:F2}) m/s";
-        string heightText = $"Altura: {dragSimulation.currentHeight:F2} m";
-        string speedMagnitude = $"Rapidez: {dragSimulation.velocity.magnitude:F2} m/s";
+        string velocityText = $"v\u20D7 = ({dragSimulation.velocity.x:F2}, {dragSimulation.velocity.y:F2}, {dragSimulation.velocity.z:F2}) m/s";
+        string heightText = $"x\u20D7 = {dragSimulation.currentHeight:F2} m";
 
-        currentData.text = $"{velocityText}\n{heightText}\n{speedMagnitude}";
+        currentData.text = $"{velocityText}\n{heightText}";
 
         if (!dragSimulation.isSimulating)
         {
@@ -150,7 +149,7 @@ public class SimulationManager : MonoBehaviour
         }
     }
 
-    public FunctionDraw VvsT;
+    public VvsTGraph VvsT;
 
     [ContextMenu("Updateest")]
     public void UpdateEstAmounts()
@@ -167,7 +166,7 @@ public class SimulationManager : MonoBehaviour
         float terminalVel = 0;
 
         target.transform.position = new Vector3(0, h0, 0);
-    
+
         if (denominador > 0.0001f && g > 0)
         {
             terminalVel = Mathf.Sqrt((2 * m * g) / denominador);
@@ -177,9 +176,15 @@ public class SimulationManager : MonoBehaviour
         {
             ESTt.text = $"v\u20D7<sub>t</sub> est. = \u221E (Vac\u00EDo)\n";
         }
+
+        VvsT.airDensity = rho;
+        VvsT.dragCoefficient = Cd;
+        VvsT.proyectedArea = A;
+        VvsT.mass = m;
+        VvsT.gravity = g;
     
         float time = 0;
-    
+
         if (g <= 0)
         {
             time = float.PositiveInfinity;
@@ -195,16 +200,19 @@ public class SimulationManager : MonoBehaviour
             float v2 = terminalVel * terminalVel;
             float eTerm = Mathf.Exp(-2 * g * h0 / v2);
             float vFinal = terminalVel * Mathf.Sqrt(1 - (1 - (v0 * v0) / v2) * eTerm);
-    
+
             float vFinalSafe = Mathf.Clamp(vFinal, 0, terminalVel * 0.9999f);
             float v0Safe = Mathf.Clamp(v0, 0, terminalVel * 0.9999f);
-    
+
             float t1 = Mathf.Log((terminalVel + vFinalSafe) / (terminalVel - vFinalSafe));
             float t2 = Mathf.Log((terminalVel + v0Safe) / (terminalVel - v0Safe));
             time = (terminalVel / (2 * g)) * (t1 - t2);
-    
+
             ESTt.text += $"t<sub>f</sub> est. = {Mathf.Abs(time):F2} s";
         }
+
+        VvsT.SetDomain(0, (int)time + 1);
+        VvsT.ComputeVvsT();
     }
     
     }

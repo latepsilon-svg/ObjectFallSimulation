@@ -15,24 +15,23 @@ public class FunctionDraw : MonoBehaviour
 
     public TextMeshProUGUI start;
 
-    Vector3 offsetMin = new Vector3(-6.1f, -3.6f, 0);
-    Vector3 offsetMax = new Vector3(7.5f, 5, 0);
+    protected Vector3 offsetMin = new Vector3(-6.1f, -3.6f, 0);
+    protected Vector3 offsetMax = new Vector3(7.5f, 5, 0);
     
-    void Start()
+    public virtual void Start()
     {
         ClearPoints();
         function = new MathFunction();
     }
     void Update()
     {
-
+        
     }
 
     [ContextMenu("X")]
     public void xd()
     {
         SetDomain(0, 8);
-        SetRange(0, function.Function(finalDomain));
     }
 
     public float step = 0.1f;
@@ -69,12 +68,12 @@ public class FunctionDraw : MonoBehaviour
         }
     }
 
-    float FromFuncToLocalDomainRatio = 0;
-    float FromFuncToLocalRangeRatio = 0;
+   protected float FromFuncToLocalDomainRatio = 0;
+   protected float FromFuncToLocalRangeRatio = 0;
 
    public float originDomain = 0;
    public float finalDomain = 0;
-    public virtual void SetDomain(int origin, int final)
+    public virtual void SetDomain(float origin, float final)
     {
         originDomain = origin;
         finalDomain = final;
@@ -88,6 +87,8 @@ public class FunctionDraw : MonoBehaviour
             domains[i].text = (origin + step * (i + 1)).ToString(decimals);
         }
         FromFuncToLocalDomainRatio = (offsetMax.x - offsetMin.x) / (final - origin);
+        
+        SetRange(0, function.Function(finalDomain));
     }
     
     public virtual void SetRange(float origin, float final)
