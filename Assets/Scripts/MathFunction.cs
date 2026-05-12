@@ -10,16 +10,14 @@ public class MathFunction
     {
         return inX;
     }
-    const double oiler = System.Math.E;
     public float Tanh(float x)
     {
-        float e = (float)oiler;
-        float result = (Mathf.Pow(e, x) - Mathf.Pow(e, -x)) / (Mathf.Pow(e, x) + Mathf.Pow(e, -x));
+        float result = (Mathf.Exp(x) - Mathf.Exp(-x)) / (Mathf.Exp(x) + Mathf.Exp(-x));
         return result;
     }
-    
+
     public float Sech(float x)
-    {     
+    {
         return 2f / (Mathf.Exp(x) + Mathf.Exp(-x));
     }
 }

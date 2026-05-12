@@ -16,7 +16,7 @@ public class VvsTGraph : FunctionDraw
 
     public void ComputeVvsT()
     {
-        float k = airDensity * dragCoefficient * proyectedArea / (2 * mass);
+        float k = (airDensity * dragCoefficient * proyectedArea) / (2 * mass);
         newF.gravity = gravity;
         newF.k = k;
 
@@ -53,10 +53,10 @@ public class VvsTGraph : FunctionDraw
             domains[i].text = (origin + step * (i + 1)).ToString(decimals);
         }
         FromFuncToLocalDomainRatio = (offsetMax.x - offsetMin.x) / (final - origin);
-        
+
         SetRange(0, newF.Function(finalDomain));
     }
-    
+
     public override void SetPoint(float x, float y)
     {
         base.SetPoint(x, y);

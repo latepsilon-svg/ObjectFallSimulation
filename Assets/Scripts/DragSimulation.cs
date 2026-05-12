@@ -14,8 +14,8 @@ public class DragSimulation : MonoBehaviour
     private float airDensity;
     private float initialHeight;
     private float initialSpeed;
-    
-    
+
+
     private Vector3 initialPosition;
     private float elapsedTime = 0;
     Transform parent;
@@ -39,9 +39,9 @@ public class DragSimulation : MonoBehaviour
 
         initialPosition = transform.position;
         currentHeight = initialHeight;
-        
+
         velocity = Vector3.down * initialSpeed;
-        
+
         isSimulating = true;
         elapsedTime = 0;
     }
@@ -51,7 +51,7 @@ public class DragSimulation : MonoBehaviour
         if (!isSimulating) return;
 
         float dragForce = 0.5f * airDensity * projectedArea * dragCoefficient * velocity.magnitude * velocity.magnitude;
-        
+
         Vector3 dragDirection = velocity.normalized;
         Vector3 dragVector = -dragDirection * dragForce;
 

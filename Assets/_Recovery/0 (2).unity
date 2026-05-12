@@ -7680,7 +7680,6 @@ GameObject:
   - component: {fileID: 1910305520}
   - component: {fileID: 1910305521}
   - component: {fileID: 1910305522}
-  - component: {fileID: 1910305523}
   m_Layer: 0
   m_Name: TargetObject
   m_TagString: Untagged
@@ -7731,18 +7730,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TouchCameraDrag
   mierda: {fileID: 1420016425}
---- !u!114 &1910305523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1910305516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1676a5d86c2043c49bcaf6ac939b0d53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CrashLogger
 --- !u!1 &1925007073
 GameObject:
   m_ObjectHideFlags: 0

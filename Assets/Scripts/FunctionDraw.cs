@@ -27,21 +27,8 @@ public class FunctionDraw : MonoBehaviour
     {
         
     }
-
-    [ContextMenu("X")]
-    public void xd()
-    {
-        SetDomain(0, 8);
-    }
-
     public float step = 0.1f;
 
-    [ContextMenu("Compute")]
-    public void Cumputea()
-    {
-        print("first");
-        Compute(0, 0);
-    }
     public void Compute(float from, float to)
     {
         ClearPoints();
