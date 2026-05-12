@@ -17,7 +17,7 @@ public class FunctionDraw : MonoBehaviour
 
     protected Vector3 offsetMin = new Vector3(-6.1f, -3.6f, 0);
     protected Vector3 offsetMax = new Vector3(7.5f, 5, 0);
-    
+
     public virtual void Start()
     {
         ClearPoints();
@@ -25,7 +25,7 @@ public class FunctionDraw : MonoBehaviour
     }
     void Update()
     {
-        
+
     }
     public float step = 0.1f;
 
@@ -55,11 +55,11 @@ public class FunctionDraw : MonoBehaviour
         }
     }
 
-   protected float FromFuncToLocalDomainRatio = 0;
-   protected float FromFuncToLocalRangeRatio = 0;
+    protected float FromFuncToLocalDomainRatio = 0;
+    protected float FromFuncToLocalRangeRatio = 0;
 
-   public float originDomain = 0;
-   public float finalDomain = 0;
+    public float originDomain = 0;
+    public float finalDomain = 0;
     public virtual void SetDomain(float origin, float final)
     {
         originDomain = origin;
@@ -74,19 +74,19 @@ public class FunctionDraw : MonoBehaviour
             domains[i].text = (origin + step * (i + 1)).ToString(decimals);
         }
         FromFuncToLocalDomainRatio = (offsetMax.x - offsetMin.x) / (final - origin);
-        
+
         SetRange(0, function.Function(finalDomain));
     }
-    
+
     public virtual void SetRange(float origin, float final)
     {
-        float step = final - origin;
-        bool needDecimal = step % ranges.Length != 0;
-        step /= ranges.Length;
+        float asd = final - origin;
+        bool needDecimal = asd % ranges.Length != 0;
+        asd /= ranges.Length;
         string decimals = needDecimal ? "F1" : "F0";
         for (int i = 0; i < ranges.Length; i++)
         {
-            ranges[i].text = (origin + step * (i+1)).ToString(decimals);
+            ranges[i].text = (origin + asd * (i + 1)).ToString(decimals);
         }
         FromFuncToLocalRangeRatio = (offsetMax.y - offsetMin.y) / (final - origin);
     }
@@ -111,7 +111,7 @@ public class FunctionDraw : MonoBehaviour
 
         computeGraph.SetPosition(lastIndex, newPos);
     }
-    
+
     public virtual void SetPointDerivative(float x, float y)
     {
         simulatedGraph.positionCount++;
@@ -126,6 +126,6 @@ public class FunctionDraw : MonoBehaviour
 
         simulatedGraph.SetPosition(lastIndex, newPos);
     }
-    
-    
+
+
 }

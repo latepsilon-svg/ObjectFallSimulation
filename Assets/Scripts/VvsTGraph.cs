@@ -18,6 +18,9 @@ public class VvsTGraph : FunctionDraw
     {
         float k = (airDensity * dragCoefficient * proyectedArea) / (2 * mass);
         newF.gravity = gravity;
+
+        print("<color=#0f0>" + k + "</color>");
+
         newF.k = k;
 
         ClearPoints();
@@ -54,7 +57,9 @@ public class VvsTGraph : FunctionDraw
         }
         FromFuncToLocalDomainRatio = (offsetMax.x - offsetMin.x) / (final - origin);
 
-        SetRange(0, newF.Function(finalDomain));
+        float targ = newF.Function(finalDomain);
+        print($"Settings Range {targ} de {finalDomain}");
+        SetRange(0, targ);
     }
 
     public override void SetPoint(float x, float y)
