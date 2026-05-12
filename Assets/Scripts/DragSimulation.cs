@@ -17,7 +17,7 @@ public class DragSimulation : MonoBehaviour
 
 
     private Vector3 initialPosition;
-    private float elapsedTime = 0;
+    public float elapsedTime = 0;
     Transform parent;
     float startTime;
     TextMeshProUGUI timeText;

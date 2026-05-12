@@ -108,7 +108,7 @@ public class SimulationManager : MonoBehaviour
     public void StartSimulation()
     {
         if (Simulating || dragSimulation == null) return;
-
+        VvsT.simulatedGraph.positionCount = 0;
         Simulating = true;
 
         dragSimulation.StartSimulation(
@@ -149,6 +149,8 @@ public class SimulationManager : MonoBehaviour
             Simulating = false;
             return;
         }
+
+        VvsT.SetPointDerivative(dragSimulation.elapsedTime, Mathf.Abs(dragSimulation.velocity.y));
 
         string velocityText = $"v\u20D7 = ({dragSimulation.velocity.x:F2}, {dragSimulation.velocity.y:F2}, {dragSimulation.velocity.z:F2}) m/s";
         string heightText = $"x\u20D7 = {dragSimulation.currentHeight:F2} m";
@@ -254,6 +256,7 @@ public class SimulationManager : MonoBehaviour
                             time = (v0 + Mathf.Sqrt(discriminant)) / g;
                         }
 
+                        Debug.Log("Updating estimated time in fallback");
                         ESTt.text += $"t<sub>f</sub> est. = {Mathf.Abs(time):F2} s";
                     }
                     else
@@ -261,6 +264,7 @@ public class SimulationManager : MonoBehaviour
                         float discriminant = v0 * v0 + 2 * g * h0;
                         if (discriminant < 0) discriminant = 0;
                         time = (v0 + Mathf.Sqrt(discriminant)) / g;
+                        Debug.Log("Updating estimated time");
                         ESTt.text += $"t<sub>f</sub> est. = {time:F2} s";
                     }
                 }

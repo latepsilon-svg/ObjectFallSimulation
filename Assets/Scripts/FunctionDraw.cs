@@ -121,7 +121,7 @@ public class FunctionDraw : MonoBehaviour
         Vector3 newPos = transform.position + new Vector3(
             offsetMin.x + FromFuncToLocalDomainRatio * x,
             offsetMin.y + FromFuncToLocalRangeRatio * y,
-            0.1f
+            -0.2f
         );
 
         simulatedGraph.SetPosition(lastIndex, newPos);
