@@ -5,15 +5,23 @@ using UnityEngine.InputSystem;
 public class TouchCameraDrag : MonoBehaviour
 {
     public CinemachineThirdPersonFollow mierda;
+
+    private float vertRot = 0f;
+
     public void OnTouch()
     {
-        Vector3 rot = new Vector3(Input.GetAxis("Mouse Y") * 1000f, Input.GetAxis("Mouse X") * -1000, 0);
-        transform.Rotate(rot * Time.deltaTime);
+        float mouseX = Input.GetAxis("Mouse X") * 1000f * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * 1000f * Time.deltaTime;
+
+        vertRot -= mouseY;
+        vertRot = Mathf.Clamp(vertRot, -90f, 90f);
+
+        transform.localRotation = Quaternion.Euler(vertRot, transform.localEulerAngles.y + mouseX, 0f);
     }
 
     void Update()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        mierda.CameraDistance -= 4 * scroll;
+        mierda.CameraDistance -= scroll * mierda.CameraDistance / 2;
     }
 }

@@ -161,10 +161,8 @@ public class SimulationManager : MonoBehaviour
 
     public void UpdateEstAmounts()
     {
-        // VALIDACIÓN: VvsT debe estar asignado
         if (VvsT == null)
         {
-            Debug.LogWarning("VvsT no está asignado en el Inspector");
             return;
         }
 
@@ -214,11 +212,9 @@ public class SimulationManager : MonoBehaviour
         }
         else
         {
-            // Con arrastre: fórmula compleja
             float v2 = terminalVel * terminalVel;
             if (v2 < 0.0001f)
             {
-                // terminalVel muy pequeño, usar aproximación de caída libre
                 float discriminant = v0 * v0 + 2 * g * h0;
                 if (discriminant < 0) discriminant = 0;
                 time = (v0 + Mathf.Sqrt(discriminant)) / g;
@@ -228,7 +224,6 @@ public class SimulationManager : MonoBehaviour
             {
                 float eTerm = Mathf.Exp(-2 * g * h0 / v2);
 
-                // Validación: asegurar que el argumento de sqrt sea válido
                 float sqrtArg = 1 - (1 - (v0 * v0) / v2) * eTerm;
                 sqrtArg = Mathf.Max(0, sqrtArg);
 
@@ -237,24 +232,20 @@ public class SimulationManager : MonoBehaviour
                 float vFinalSafe = Mathf.Clamp(vFinal, 0, terminalVel * 0.9999999f);
                 float v0Safe = Mathf.Clamp(v0, 0, terminalVel * 0.9999999f);
 
-                // Validación: evitar log de números inválidos
                 float denomLog1 = terminalVel - vFinalSafe;
                 float denomLog2 = terminalVel - v0Safe;
 
-                // CORRECCIÓN CRÍTICA: Validar denominadores de forma robusta
                 if (denomLog1 > 0.0001f && denomLog2 > 0.0001f)
                 {
                     float logArg1 = (terminalVel + vFinalSafe) / denomLog1;
                     float logArg2 = (terminalVel + v0Safe) / denomLog2;
 
-                    // Validar argumentos de log
                     if (logArg1 > 0.00001f && logArg2 > 0.00001f && !float.IsInfinity(logArg1) && !float.IsInfinity(logArg2))
                     {
                         float t1 = Mathf.Log(logArg1);
                         float t2 = Mathf.Log(logArg2);
                         time = (terminalVel / (2 * g)) * (t1 - t2);
 
-                        // Validación final: asegurarse de que time sea válido
                         if (float.IsNaN(time) || float.IsInfinity(time) || time < 0)
                         {
                             // Fallback: usar caída libre
@@ -267,8 +258,6 @@ public class SimulationManager : MonoBehaviour
                     }
                     else
                     {
-                        // Argumentos de log inválidos, usar fallback
-                        Debug.LogWarning("[UpdateEstAmounts] Argumentos de log inválidos, usando caída libre");
                         float discriminant = v0 * v0 + 2 * g * h0;
                         if (discriminant < 0) discriminant = 0;
                         time = (v0 + Mathf.Sqrt(discriminant)) / g;
@@ -277,8 +266,6 @@ public class SimulationManager : MonoBehaviour
                 }
                 else
                 {
-                    // Denominadores de log inválidos, usar fallback
-                    Debug.LogWarning("[UpdateEstAmounts] Denominadores de log inválidos, usando caída libre");
                     float discriminant = v0 * v0 + 2 * g * h0;
                     if (discriminant < 0) discriminant = 0;
                     time = (v0 + Mathf.Sqrt(discriminant)) / g;
@@ -287,13 +274,11 @@ public class SimulationManager : MonoBehaviour
             }
         }
 
-        // VALIDACIÓN FINAL: Asegurar que time sea un valor válido para SetDomain
         if (float.IsNaN(time) || float.IsInfinity(time) || time <= 0)
         {
-            time = 10f; // Valor por defecto seguro
+            time = 10f;
         }
 
-        // Clampear time a un rango razonable para evitar valores gigantes
         time = Mathf.Clamp(time, 0.1f, 1000f);
 
         VvsT.SetDomain(0, time);
