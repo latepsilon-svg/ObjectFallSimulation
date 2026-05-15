@@ -15,6 +15,8 @@ public class DragSimulation : MonoBehaviour
     private float initialHeight;
     private float initialSpeed;
 
+    [Range(0.0001f, 1)] public float timeScale = 1;
+
 
     private Vector3 initialPosition;
     public float elapsedTime = 0;
@@ -50,6 +52,8 @@ public class DragSimulation : MonoBehaviour
     {
         if (!isSimulating) return;
 
+        float delta = Time.fixedDeltaTime * timeScale;
+
         float dragForce = 0.5f * airDensity * projectedArea * dragCoefficient * velocity.magnitude * velocity.magnitude;
 
         Vector3 dragDirection = velocity.normalized;
@@ -58,15 +62,15 @@ public class DragSimulation : MonoBehaviour
         Vector3 gravityForce = Vector3.down * mass * gravity;
 
         Vector3 acceleration = (gravityForce + dragVector) / mass;
-        velocity += acceleration * Time.fixedDeltaTime;
+        velocity += acceleration * delta;
 
-        transform.position += velocity * Time.fixedDeltaTime;
+        transform.position += velocity * delta;
 
         currentHeight = transform.position.y;
 
-        elapsedTime += Time.fixedDeltaTime;
+        elapsedTime += delta;
 
-        timeText.text = $"T: {Time.time - startTime:F3}s";
+        timeText.text = $"T: {elapsedTime:F3}s";
         if (currentHeight <= 0)
         {
             currentHeight = 0;
@@ -74,6 +78,11 @@ public class DragSimulation : MonoBehaviour
             isSimulating = false;
             transform.position = Vector3.zero;
         }
+    }
+
+    public void ChangeTime(float entryValue)
+    {
+        timeScale = entryValue;
     }
 
     public void StopSimulation()

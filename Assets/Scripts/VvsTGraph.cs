@@ -8,10 +8,18 @@ public class VvsTGraph : FunctionDraw
     public float mass;
     public float gravity;
     VvsTFunction newF;
+
+    public LineRenderer derivativeGraph;
     public override void Start()
     {
         ClearPoints();
         newF = new VvsTFunction();
+    }
+
+    public override void ClearPoints()
+    {
+        base.ClearPoints();
+        derivativeGraph.positionCount = 0;
     }
 
     public void ComputeVvsT()
@@ -38,7 +46,9 @@ public class VvsTGraph : FunctionDraw
                 print("XD");
             }
             float fx = newF.Function(counter);
+            float dx = newF.Derivative(counter);
             SetPoint(counter, fx);
+            SetYellowGraph(counter, dx);
             counter += step;
         }
     }
@@ -65,5 +75,20 @@ public class VvsTGraph : FunctionDraw
     public override void SetPoint(float x, float y)
     {
         base.SetPoint(x, y);
+    }
+
+    public void SetYellowGraph(float x, float y)
+    {
+        derivativeGraph.positionCount++;
+
+        int lastIndex = derivativeGraph.positionCount - 1;
+
+        Vector3 newPos = transform.position + new Vector3(
+            offsetMin.x + FromFuncToLocalDomainRatio * x,
+            offsetMin.y + FromFuncToLocalRangeRatio * y,
+            -0.3f
+        );
+
+        derivativeGraph.SetPosition(lastIndex, newPos);
     }
 }

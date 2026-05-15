@@ -9,11 +9,11 @@ public class PropertySlot : MonoBehaviour
     public TMP_InputField inputField;
     public string sufix = "(kg)";
     public string floats = "F1";
-    
+
     void Update()
     {
         if (inputField == null || slider == null || Application.isPlaying) return;
-        
+
         inputField.text = $"{slider.value.ToString(floats)} {sufix}";
     }
 
@@ -34,7 +34,7 @@ public class PropertySlot : MonoBehaviour
     {
         UpdateText();
     }
-    
+
     void UpdateText()
     {
         inputField.text = $"{slider.value.ToString(floats)} {sufix}";

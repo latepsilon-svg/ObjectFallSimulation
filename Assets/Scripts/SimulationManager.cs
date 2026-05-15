@@ -30,6 +30,7 @@ public class SimulationManager : MonoBehaviour
     public PropertySlot initialSpeed;
     public PropertySlot gravity;
     public PropertySlot airDensity;
+    public PropertySlot timeScale;
 
 
 
@@ -62,7 +63,7 @@ public class SimulationManager : MonoBehaviour
         initialSpeed.slider.onValueChanged.AddListener(_ => UpdateEstAmounts());
         gravity.slider.onValueChanged.AddListener(_ => UpdateEstAmounts());
         airDensity.slider.onValueChanged.AddListener(_ => UpdateEstAmounts());
-
+        timeScale.slider.onValueChanged.AddListener(x => dragSimulation.ChangeTime(x));
 
         SelectPreset(0);
         dropdown.onValueChanged.AddListener(SelectPreset);
