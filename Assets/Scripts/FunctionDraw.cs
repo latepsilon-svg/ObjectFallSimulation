@@ -81,6 +81,7 @@ public class FunctionDraw : MonoBehaviour
     public virtual void SetRange(float origin, float final)
     {
         float asd = final - origin;
+        if (origin > final) asd = origin - final;
         bool needDecimal = asd % ranges.Length != 0;
         asd /= ranges.Length;
         string decimals = needDecimal ? "F1" : "F0";
@@ -88,7 +89,9 @@ public class FunctionDraw : MonoBehaviour
         {
             ranges[i].text = (origin + asd * (i + 1)).ToString(decimals);
         }
-        FromFuncToLocalRangeRatio = (offsetMax.y - offsetMin.y) / (final - origin);
+        float factor = (origin > final) ? origin - final : final - origin;
+        FromFuncToLocalRangeRatio = (offsetMax.y - offsetMin.y) / factor;
+        print(FromFuncToLocalRangeRatio);
     }
 
     public virtual void ClearPoints()
