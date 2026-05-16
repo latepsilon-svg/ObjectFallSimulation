@@ -849,8 +849,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -957,6 +957,7 @@ MonoBehaviour:
   step: 0.01
   originDomain: 0
   finalDomain: 0
+  originRange: 0
   airDensity: 0
   dragCoefficient: 0
   proyectedArea: 0
@@ -1977,8 +1978,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2468,7 +2469,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 989209866}
   m_HandleRect: {fileID: 989209865}
   m_Direction: 2
-  m_Value: 0.50000024
+  m_Value: 0.5000001
   m_Size: 0.54470426
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2716,8 +2717,8 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -3230,7 +3231,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6868973570392769530, guid: 0905119883b2d30419b4f78dc7c639b3, type: 3}
       propertyPath: m_text
-      value: "1,255 (kg/m<sup>3</sup>)\u200B"
+      value: "1.255 (kg/m<sup>3</sup>)\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 7211135949919280339, guid: 0905119883b2d30419b4f78dc7c639b3, type: 3}
       propertyPath: m_SizeDelta.x
@@ -3536,7 +3537,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6868973570392769530, guid: 0905119883b2d30419b4f78dc7c639b3, type: 3}
       propertyPath: m_text
-      value: "9,80 (m/s<sup>2</sup>)\u200B"
+      value: "9.80 (m/s<sup>2</sup>)\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 8159783552436555468, guid: 0905119883b2d30419b4f78dc7c639b3, type: 3}
       propertyPath: m_Value
@@ -4634,7 +4635,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6868973570392769530, guid: 0905119883b2d30419b4f78dc7c639b3, type: 3}
       propertyPath: m_text
-      value: "0,057 (C<sub>d</sub>)\u200B"
+      value: "0.057 (C<sub>d</sub>)\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 8159783552436555468, guid: 0905119883b2d30419b4f78dc7c639b3, type: 3}
       propertyPath: m_Value
@@ -4757,8 +4758,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6001,7 +6002,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6868973570392769530, guid: 0905119883b2d30419b4f78dc7c639b3, type: 3}
       propertyPath: m_text
-      value: "0,00 (m/s)\u200B"
+      value: "0.00 (m/s)\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 8159783552436555468, guid: 0905119883b2d30419b4f78dc7c639b3, type: 3}
       propertyPath: m_Value
@@ -6723,7 +6724,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6868973570392769530, guid: 0905119883b2d30419b4f78dc7c639b3, type: 3}
       propertyPath: m_text
-      value: "0,057 (m<sup>2</sup>)\u200B"
+      value: "0.057 (m<sup>2</sup>)\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 8159783552436555468, guid: 0905119883b2d30419b4f78dc7c639b3, type: 3}
       propertyPath: m_Value
@@ -7938,7 +7939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
   m_Delegates:
-  - eventID: 2
+  - eventID: 5
     callback:
       m_PersistentCalls:
         m_Calls:
@@ -7954,14 +7955,30 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 5
+  - eventID: 0
     callback:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1910305522}
           m_TargetAssemblyTypeName: TouchCameraDrag, Assembly-CSharp
-          m_MethodName: OnTouch
-          m_Mode: 1
+          m_MethodName: MouseIn
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1910305522}
+          m_TargetAssemblyTypeName: TouchCameraDrag, Assembly-CSharp
+          m_MethodName: MouseIn
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8898,7 +8915,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6868973570392769530, guid: 0905119883b2d30419b4f78dc7c639b3, type: 3}
       propertyPath: m_text
-      value: "1,00 (m)\u200B"
+      value: "1.00 (m)\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 8159783552436555468, guid: 0905119883b2d30419b4f78dc7c639b3, type: 3}
       propertyPath: m_Value
@@ -10719,7 +10736,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10
+  m_text: '- 10'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dedfcdc9a5eecc04c8cb1b9633baf73c, type: 2}
   m_sharedMaterial: {fileID: -5222705954330239818, guid: dedfcdc9a5eecc04c8cb1b9633baf73c, type: 2}
@@ -10746,8 +10763,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -10854,6 +10871,7 @@ MonoBehaviour:
   step: 0.01
   originDomain: 0
   finalDomain: 0
+  originRange: 0
   reference: {fileID: 271400149}
 --- !u!1 &1959574713
 GameObject:
@@ -12641,7 +12659,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 1,00 (s/1)
+  m_Text: 1.00 (s/1)
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -12877,7 +12895,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6868973570392769530, guid: 0905119883b2d30419b4f78dc7c639b3, type: 3}
       propertyPath: m_text
-      value: "0,057 (kg)\u200B"
+      value: "0.057 (kg)\u200B"
       objectReference: {fileID: 0}
     - target: {fileID: 8159783552436555468, guid: 0905119883b2d30419b4f78dc7c639b3, type: 3}
       propertyPath: m_Value
@@ -13205,7 +13223,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "1,00 (s/1)\u200B"
+  m_text: "1.00 (s/1)\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dedfcdc9a5eecc04c8cb1b9633baf73c, type: 2}
   m_sharedMaterial: {fileID: -5222705954330239818, guid: dedfcdc9a5eecc04c8cb1b9633baf73c, type: 2}

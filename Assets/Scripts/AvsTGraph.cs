@@ -13,7 +13,6 @@ public class AvsTGraph : FunctionDraw
         newF = new VvsTFunction();
     }
 
-
     public void ComputeVvsT()
     {
         float k = (reference.airDensity * reference.dragCoefficient * reference.proyectedArea) / (2 * reference.mass);
@@ -37,11 +36,12 @@ public class AvsTGraph : FunctionDraw
             {
                 print("XD");
             }
-            float dx = newF.Derivative(counter);
+            float dx = newF.Derivative(counter) - originRange;
             SetPoint(counter, dx);
             counter += step;
         }
     }
+
     public override void SetDomain(float origin, float final)
     {
         originDomain = origin;
@@ -66,7 +66,16 @@ public class AvsTGraph : FunctionDraw
 
     public override void SetPoint(float x, float y)
     {
-        base.SetPoint(x, y);
-    }
+        computeGraph.positionCount++;
 
+        int lastIndex = computeGraph.positionCount - 1;
+
+        Vector3 newPos = transform.position + new Vector3(
+            offsetMin.x + FromFuncToLocalDomainRatio * x,
+            offsetMax.y + FromFuncToLocalRangeRatio * y,
+            0
+        );
+
+        computeGraph.SetPosition(lastIndex, newPos);
+    }
 }
