@@ -5,7 +5,7 @@ public class VvsTFunction : MathFunction
     public override float Derivative(float inX)
     {
         float ind = Mathf.Sqrt(gravity * k) * inX;
-        return 10 * Sech(ind) * Sech(ind);
+        return gravity * Sech(ind) * Sech(ind);
     }
     public float gravity;
     public float k;
