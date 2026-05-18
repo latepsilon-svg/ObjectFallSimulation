@@ -205,13 +205,6 @@ public class SimulationManager : MonoBehaviour
             time = float.PositiveInfinity;
             ESTt.text += $"t<sub>f</sub> est. = \u221E";
         }
-        else if (denominador <= 0.00000000000000001f)
-        {
-            float discriminant = v0 * v0 + 2 * g * h0;
-            if (discriminant < 0) discriminant = 0;
-            time = (v0 + Mathf.Sqrt(discriminant)) / g;
-            ESTt.text += $"t<sub>f</sub> est. = {time:F2} s";
-        }
         else
         {
             float v2 = terminalVel * terminalVel;
@@ -233,37 +226,21 @@ public class SimulationManager : MonoBehaviour
                 float logArg1 = (terminalVel + vFinalSafe) / denomLog1;
                 float logArg2 = (terminalVel + v0Safe) / denomLog2;
 
-                if (logArg1 > 0.00001f && logArg2 > 0.00001f && !float.IsInfinity(logArg1) && !float.IsInfinity(logArg2))
+                if (logArg1 > 0.00000001f && logArg2 > 0.00000001f && !float.IsInfinity(logArg1) && !float.IsInfinity(logArg2))
                 {
                     float t1 = Mathf.Log(logArg1);
                     float t2 = Mathf.Log(logArg2);
-                    time = (terminalVel / (2 * g)) * (t1 - t2);
+                    time = terminalVel / (2 * g) * (t1 - t2);
 
                     if (float.IsNaN(time) || float.IsInfinity(time) || time < 0)
                     {
                         float discriminant = v0 * v0 + 2 * g * h0;
                         if (discriminant < 0) discriminant = 0;
-                        time = (v0 + Mathf.Sqrt(discriminant)) / g;
                     }
 
                     Debug.Log("Updating estimated time in fallback");
                     ESTt.text += $"t<sub>f</sub> est. = {Mathf.Abs(time):F2} s";
                 }
-                else
-                {
-                    float discriminant = v0 * v0 + 2 * g * h0;
-                    if (discriminant < 0) discriminant = 0;
-                    time = (v0 + Mathf.Sqrt(discriminant)) / g;
-                    Debug.Log("Updating estimated time");
-                    ESTt.text += $"t<sub>f</sub> est. = {time:F2} s";
-                }
-            }
-            else
-            {
-                float discriminant = v0 * v0 + 2 * g * h0;
-                if (discriminant < 0) discriminant = 0;
-                time = (v0 + Mathf.Sqrt(discriminant)) / g;
-                ESTt.text += $"t<sub>f</sub> est. = {time:F2} s";
             }
 
         }

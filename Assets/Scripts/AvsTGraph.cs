@@ -29,7 +29,6 @@ public class AvsTGraph : FunctionDraw
 
         float counter = from;
 
-        print($"from {counter} to {to}");
         while (counter < to)
         {
             if (newF == null)
@@ -60,7 +59,6 @@ public class AvsTGraph : FunctionDraw
         float originF = newF.Derivative(0);
         float targ = newF.Derivative(finalDomain);
 
-        print($"Settings Range -{originF}- a -{targ}-");
         SetRange(originF, targ);
     }
 

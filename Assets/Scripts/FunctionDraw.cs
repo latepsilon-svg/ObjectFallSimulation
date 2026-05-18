@@ -40,7 +40,6 @@ public class FunctionDraw : MonoBehaviour
         if (counter < originDomain) counter = originDomain;
         if (to > finalDomain || to == 0) to = finalDomain;
 
-        print($"from {counter} to {to}");
         while (counter < to)
         {
             if (function == null)
@@ -94,21 +93,20 @@ public class FunctionDraw : MonoBehaviour
         string decimals = needDecimal ? "F1" : "F0";
         if (swap)
         {
-            for (int i = ranges.Length - 1; i >= 0; i--)
+            for (int i = 0; i < ranges.Length; i++)
             {
-                ranges[i].text = (final - asd * (i + 1)).ToString(decimals);
+                ranges[i].text = (final + asd * (i + 1)).ToString(decimals);
             }
         }
         else
         {
-            for (int i = 0; i < ranges.Length; i++)
+            for (int i = ranges.Length - 1; i >= 0; i--)
             {
                 ranges[i].text = (origin + asd * (i + 1)).ToString(decimals);
             }
         }
         float factor = (origin > final) ? origin - final : final - origin;
         FromFuncToLocalRangeRatio = (offsetMax.y - offsetMin.y) / factor;
-        print(FromFuncToLocalRangeRatio);
     }
 
     public virtual void ClearPoints()
