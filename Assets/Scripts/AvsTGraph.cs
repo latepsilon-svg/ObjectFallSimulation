@@ -1,29 +1,24 @@
-using System;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class VvsTGraph : FunctionDraw
+public class AvsTGraph : FunctionDraw
 {
-    public float airDensity;
-    public float dragCoefficient;
-    public float proyectedArea;
-    public float mass;
-    public float gravity;
+    public VvsTGraph reference;
     VvsTFunction newF;
 
-    public UnityAction callback;
-    public Action<float, float> domainCallback;
-
-    public override void Start()
+    void Awake()
     {
+        reference.callback += ComputeVvsT;
+        reference.domainCallback += SetDomain;
         ClearPoints();
         newF = new VvsTFunction();
     }
 
     public void ComputeVvsT()
     {
-        float k = (airDensity * dragCoefficient * proyectedArea) / (2 * mass);
-        newF.gravity = gravity;
+        float k = (reference.airDensity * reference.dragCoefficient * reference.proyectedArea) / (2 * reference.mass);
+        newF.gravity = reference.gravity;
+
+        print("<color=#0f0>" + k + "</color>");
 
         newF.k = k;
 
@@ -34,20 +29,18 @@ public class VvsTGraph : FunctionDraw
 
         float counter = from;
 
-
         while (counter < to)
         {
             if (newF == null)
             {
                 print("XD");
             }
-            float fx = newF.Function(counter);
-            float dx = newF.Derivative(counter);
-            SetPoint(counter, fx);
+            float dx = newF.Derivative(counter) - originRange;
+            SetPoint(counter, dx);
             counter += step;
         }
-        callback?.Invoke();
     }
+
     public override void SetDomain(float origin, float final)
     {
         originDomain = origin;
@@ -63,14 +56,24 @@ public class VvsTGraph : FunctionDraw
         }
         FromFuncToLocalDomainRatio = (offsetMax.x - offsetMin.x) / (final - origin);
 
-        float targ = newF.Function(finalDomain);
-        SetRange(0, targ);
-        domainCallback?.Invoke(origin, final);
+        float originF = newF.Derivative(0);
+        float targ = newF.Derivative(finalDomain);
+
+        SetRange(originF, targ);
     }
 
     public override void SetPoint(float x, float y)
     {
-        base.SetPoint(x, y);
-    }
+        computeGraph.positionCount++;
 
+        int lastIndex = computeGraph.positionCount - 1;
+
+        Vector3 newPos = transform.position + new Vector3(
+            offsetMin.x + FromFuncToLocalDomainRatio * x,
+            offsetMax.y + FromFuncToLocalRangeRatio * y,
+            0
+        );
+
+        computeGraph.SetPosition(lastIndex, newPos);
+    }
 }

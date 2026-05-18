@@ -40,7 +40,6 @@ public class FunctionDraw : MonoBehaviour
         if (counter < originDomain) counter = originDomain;
         if (to > finalDomain || to == 0) to = finalDomain;
 
-        print($"from {counter} to {to}");
         while (counter < to)
         {
             if (function == null)
@@ -60,6 +59,7 @@ public class FunctionDraw : MonoBehaviour
 
     public float originDomain = 0;
     public float finalDomain = 0;
+    public float originRange = 0;
     public virtual void SetDomain(float origin, float final)
     {
         originDomain = origin;
@@ -80,15 +80,33 @@ public class FunctionDraw : MonoBehaviour
 
     public virtual void SetRange(float origin, float final)
     {
+        originRange = origin;
         float asd = final - origin;
+        bool swap = false;
+        if (origin > final)
+        {
+            swap = true;
+            asd = origin - final;
+        }
         bool needDecimal = asd % ranges.Length != 0;
         asd /= ranges.Length;
         string decimals = needDecimal ? "F1" : "F0";
-        for (int i = 0; i < ranges.Length; i++)
+        if (swap)
         {
-            ranges[i].text = (origin + asd * (i + 1)).ToString(decimals);
+            for (int i = 0; i < ranges.Length; i++)
+            {
+                ranges[i].text = (final + asd * (i + 1)).ToString(decimals);
+            }
         }
-        FromFuncToLocalRangeRatio = (offsetMax.y - offsetMin.y) / (final - origin);
+        else
+        {
+            for (int i = ranges.Length - 1; i >= 0; i--)
+            {
+                ranges[i].text = (origin + asd * (i + 1)).ToString(decimals);
+            }
+        }
+        float factor = (origin > final) ? origin - final : final - origin;
+        FromFuncToLocalRangeRatio = (offsetMax.y - offsetMin.y) / factor;
     }
 
     public virtual void ClearPoints()
@@ -126,6 +144,4 @@ public class FunctionDraw : MonoBehaviour
 
         simulatedGraph.SetPosition(lastIndex, newPos);
     }
-
-
 }

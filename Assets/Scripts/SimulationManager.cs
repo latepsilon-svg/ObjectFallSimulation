@@ -30,6 +30,7 @@ public class SimulationManager : MonoBehaviour
     public PropertySlot initialSpeed;
     public PropertySlot gravity;
     public PropertySlot airDensity;
+    public PropertySlot timeScale;
 
 
 
@@ -62,7 +63,7 @@ public class SimulationManager : MonoBehaviour
         initialSpeed.slider.onValueChanged.AddListener(_ => UpdateEstAmounts());
         gravity.slider.onValueChanged.AddListener(_ => UpdateEstAmounts());
         airDensity.slider.onValueChanged.AddListener(_ => UpdateEstAmounts());
-
+        timeScale.slider.onValueChanged.AddListener(x => dragSimulation.ChangeTime(x));
 
         SelectPreset(0);
         dropdown.onValueChanged.AddListener(SelectPreset);
@@ -170,13 +171,13 @@ public class SimulationManager : MonoBehaviour
 
         float m = Mathf.Max(0.0001f, mass.slider.value);
         float g = Mathf.Abs(gravity.slider.value);
-        float rho = Mathf.Max(0, airDensity.slider.value);
+        float p = Mathf.Max(0, airDensity.slider.value);
         float A = Mathf.Max(0, proyectedArea.slider.value);
         float Cd = Mathf.Max(0, dragCoefficient.slider.value);
         float h0 = Mathf.Max(0, initialHeight.slider.value);
         float v0 = Mathf.Abs(initialSpeed.slider.value);
 
-        float denominador = rho * A * Cd;
+        float denominador = p * A * Cd;
         float terminalVel = 0;
 
         target.transform.position = new Vector3(0, h0, 0);
@@ -191,7 +192,7 @@ public class SimulationManager : MonoBehaviour
             ESTt.text = $"v\u20D7<sub>t</sub> est. = \u221E (Vacío)\n";
         }
 
-        VvsT.airDensity = rho;
+        VvsT.airDensity = p;
         VvsT.dragCoefficient = Cd;
         VvsT.proyectedArea = A;
         VvsT.mass = m;
@@ -204,78 +205,44 @@ public class SimulationManager : MonoBehaviour
             time = float.PositiveInfinity;
             ESTt.text += $"t<sub>f</sub> est. = \u221E";
         }
-        else if (denominador <= 0.0001f)
-        {
-            // Sin arrastre: caída libre
-            float discriminant = v0 * v0 + 2 * g * h0;
-            if (discriminant < 0) discriminant = 0;
-            time = (v0 + Mathf.Sqrt(discriminant)) / g;
-            ESTt.text += $"t<sub>f</sub> est. = {time:F2} s";
-        }
         else
         {
             float v2 = terminalVel * terminalVel;
-            if (v2 < 0.0001f)
+            float eTerm = Mathf.Exp(-2 * g * h0 / v2);
+
+            float sqrtArg = 1 - (1 - (v0 * v0) / v2) * eTerm;
+            sqrtArg = Mathf.Max(0, sqrtArg);
+
+            float vFinal = terminalVel * Mathf.Sqrt(sqrtArg);
+
+            float vFinalSafe = Mathf.Clamp(vFinal, 0, terminalVel * 0.9999999f);
+            float v0Safe = Mathf.Clamp(v0, 0, terminalVel * 0.9999999f);
+
+            float denomLog1 = terminalVel - vFinalSafe;
+            float denomLog2 = terminalVel - v0Safe;
+
+            if (denomLog1 > 0.0001f && denomLog2 > 0.0001f)
             {
-                float discriminant = v0 * v0 + 2 * g * h0;
-                if (discriminant < 0) discriminant = 0;
-                time = (v0 + Mathf.Sqrt(discriminant)) / g;
-                ESTt.text += $"t<sub>f</sub> est. = {time:F2} s";
-            }
-            else
-            {
-                float eTerm = Mathf.Exp(-2 * g * h0 / v2);
+                float logArg1 = (terminalVel + vFinalSafe) / denomLog1;
+                float logArg2 = (terminalVel + v0Safe) / denomLog2;
 
-                float sqrtArg = 1 - (1 - (v0 * v0) / v2) * eTerm;
-                sqrtArg = Mathf.Max(0, sqrtArg);
-
-                float vFinal = terminalVel * Mathf.Sqrt(sqrtArg);
-
-                float vFinalSafe = Mathf.Clamp(vFinal, 0, terminalVel * 0.9999999f);
-                float v0Safe = Mathf.Clamp(v0, 0, terminalVel * 0.9999999f);
-
-                float denomLog1 = terminalVel - vFinalSafe;
-                float denomLog2 = terminalVel - v0Safe;
-
-                if (denomLog1 > 0.0001f && denomLog2 > 0.0001f)
+                if (logArg1 > 0.00000001f && logArg2 > 0.00000001f && !float.IsInfinity(logArg1) && !float.IsInfinity(logArg2))
                 {
-                    float logArg1 = (terminalVel + vFinalSafe) / denomLog1;
-                    float logArg2 = (terminalVel + v0Safe) / denomLog2;
+                    float t1 = Mathf.Log(logArg1);
+                    float t2 = Mathf.Log(logArg2);
+                    time = terminalVel / (2 * g) * (t1 - t2);
 
-                    if (logArg1 > 0.00001f && logArg2 > 0.00001f && !float.IsInfinity(logArg1) && !float.IsInfinity(logArg2))
-                    {
-                        float t1 = Mathf.Log(logArg1);
-                        float t2 = Mathf.Log(logArg2);
-                        time = (terminalVel / (2 * g)) * (t1 - t2);
-
-                        if (float.IsNaN(time) || float.IsInfinity(time) || time < 0)
-                        {
-                            // Fallback: usar caída libre
-                            float discriminant = v0 * v0 + 2 * g * h0;
-                            if (discriminant < 0) discriminant = 0;
-                            time = (v0 + Mathf.Sqrt(discriminant)) / g;
-                        }
-
-                        Debug.Log("Updating estimated time in fallback");
-                        ESTt.text += $"t<sub>f</sub> est. = {Mathf.Abs(time):F2} s";
-                    }
-                    else
+                    if (float.IsNaN(time) || float.IsInfinity(time) || time < 0)
                     {
                         float discriminant = v0 * v0 + 2 * g * h0;
                         if (discriminant < 0) discriminant = 0;
-                        time = (v0 + Mathf.Sqrt(discriminant)) / g;
-                        Debug.Log("Updating estimated time");
-                        ESTt.text += $"t<sub>f</sub> est. = {time:F2} s";
                     }
-                }
-                else
-                {
-                    float discriminant = v0 * v0 + 2 * g * h0;
-                    if (discriminant < 0) discriminant = 0;
-                    time = (v0 + Mathf.Sqrt(discriminant)) / g;
-                    ESTt.text += $"t<sub>f</sub> est. = {time:F2} s";
+
+                    Debug.Log("Updating estimated time in fallback");
+                    ESTt.text += $"t<sub>f</sub> est. = {Mathf.Abs(time):F2} s";
                 }
             }
+
         }
 
         if (float.IsNaN(time) || float.IsInfinity(time) || time <= 0)

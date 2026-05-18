@@ -8,7 +8,7 @@ public class TouchCameraDrag : MonoBehaviour
 
     private float vertRot = 0f;
 
-    bool interactable = false;
+    bool mouseIn;
 
     public void OnTouch()
     {
@@ -23,15 +23,13 @@ public class TouchCameraDrag : MonoBehaviour
 
     void Update()
     {
-        if (interactable)
-        {
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            mierda.CameraDistance -= scroll * mierda.CameraDistance / 2;
-        }
+        if (!mouseIn) return;
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        mierda.CameraDistance -= scroll * mierda.CameraDistance / 2;
     }
 
-    public void MouseIO(bool input)
+    public void MouseIn(bool b)
     {
-        interactable = input;
+        mouseIn = b;
     }
 }
