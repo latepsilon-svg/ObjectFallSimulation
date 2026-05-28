@@ -67,11 +67,11 @@ public partial struct ParticleVisualSystem : ISystem
                 UnityEngine.Random.Range(-1f, 1f),
                 UnityEngine.Random.Range(-1f, 1f)
             );
-            
+
             velocity.ValueRW.Linear +=
                 noise
                 * sub.ValueRO.noiseStrength
                 * SystemAPI.Time.DeltaTime;
-            }
+        }
     }
 }

@@ -36,8 +36,14 @@ public partial struct FallingObjectSpawnSystem : ISystem
 {
     public void OnUpdate(ref SystemState state)
     {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            Shader.SetGlobalFloat("_MinLight", Shader.GetGlobalFloat("_MinLight") + 0.01f);
+        }
+
         if (!Input.GetKeyDown(KeyCode.Space))
             return;
+
 
         var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
 
