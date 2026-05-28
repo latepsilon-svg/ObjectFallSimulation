@@ -139,6 +139,7 @@ public partial struct ParticleSpawnSystem : ISystem
                         noiseStrength = spawner.ValueRO.noiseStrength,
                         drag = spawner.ValueRO.drag,
                         domain = spawner.ValueRO.domain,
+                        modosexo = spawner.ValueRO.sex,
                     });
 
             }

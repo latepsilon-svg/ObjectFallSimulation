@@ -19,6 +19,7 @@ public struct ParticleSubData : IComponentData
     public float noiseStrength;
     public float drag;
     public float domain;
+    public int modosexo;
 }
 
 public partial struct ParticleVisualSystem : ISystem
@@ -58,7 +59,7 @@ public partial struct ParticleVisualSystem : ISystem
             float dr = distance * sub.ValueRO.drag / (sub.ValueRO.domain / 2);
 
             velocity.ValueRW.Linear -=
-                drdir
+                drdir * (sub.ValueRO.modosexo == 1 ? 0 : 1)
                 * dr
                 * SystemAPI.Time.DeltaTime;
 

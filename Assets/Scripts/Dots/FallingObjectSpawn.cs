@@ -36,13 +36,13 @@ public partial struct FallingObjectSpawnSystem : ISystem
 {
     public void OnUpdate(ref SystemState state)
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
-            Shader.SetGlobalFloat("_MinLight", Shader.GetGlobalFloat("_MinLight") + 0.002f);
+            Shader.SetGlobalFloat("_MinLight", math.clamp(Shader.GetGlobalFloat("_MinLight") + 0.01f * SystemAPI.Time.DeltaTime, 0, 1f));
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
-            Shader.SetGlobalFloat("_MinLight", math.clamp(Shader.GetGlobalFloat("_MinLight") - 0.002f, 0, 0.5f));
+            Shader.SetGlobalFloat("_MinLight", math.clamp(Shader.GetGlobalFloat("_MinLight") - 0.01f * SystemAPI.Time.DeltaTime, 0, 1f));
         }
 
         if (!Input.GetKeyDown(KeyCode.Space))

@@ -165,15 +165,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ParticleSpawner
   quality: 10
   prefab: {fileID: 1544658792849767385, guid: 1e7fe61326703cf499e3f6f9427cfd3b, type: 3}
-  count: 5000
-  cubeSize: 3
-  scale: 0.2
-  initialMomentum: 1
+  count: 25000
+  cubeSize: 2
+  scale: 0.1
+  initialMomentum: 10
   maxMomentumColorization: 10
   pressureStrenght: 1
   modosexo: 0
-  drag: 0.075
-  noiseStrenght: 0.5
+  drag: 0.1
+  noiseStrenght: 2
   domain: 3
 --- !u!1 &98572171
 GameObject:
@@ -219,9 +219,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d847643a20f54794caacbf16b89d1cdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FallingObjectSpawn
-  prefab: {fileID: 5120718855367257024, guid: ca4f589f7c3a3794599c8c8cfe4ebb22, type: 3}
-  spawnPosition: {x: 0, y: 10, z: 0}
-  spawnScale: 0.5
+  prefab: {fileID: 5120718855367257024, guid: f0faaea1ae2c8ff47a02ad48c179c47f, type: 3}
+  spawnPosition: {x: 0, y: 3, z: 0}
+  spawnScale: 0.7
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
